@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,9 +13,16 @@ namespace Assign1_Salesboard_Zephyr.DBData
     {
         public int Id { get; set; }
 
+        
+        public virtual IdentityUser id { get; set; }
+        [Display(Name = "Seller"), Required]
+        public int userid { get; set; }
+
+        /*
         [ForeignKey("AspNetUsers")]
         [Display(Name = "Seller")]
         public int Sellerid { get; set; }
+        */
 
         [StringLength(60, MinimumLength = 3, ErrorMessage = "Between 3 and 60 characters, make it accurate and concise"), Required]
         public string Itemname { get; set; }
@@ -22,7 +30,7 @@ namespace Assign1_Salesboard_Zephyr.DBData
         [Display(Name = "Item Description"), StringLength(255)]
         public string Itemdesc { get; set; }
 
-        [RegularExpression(@"^[A-Z]+[a-zA-Z]*$"), Required, StringLength(30)]
+        [RegularExpression(@"^[A-Z]+[a-zA-Z]*$"), StringLength(30)]
         public string Category { get; set; }
 
         [Range(1, 100), DataType(DataType.Currency)]

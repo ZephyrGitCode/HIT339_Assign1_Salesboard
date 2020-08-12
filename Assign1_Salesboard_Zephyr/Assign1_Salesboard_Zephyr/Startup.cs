@@ -33,8 +33,8 @@ namespace Assign1_Salesboard_Zephyr
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddDefaultIdentity<SalesboardContext>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<SalesboardContext>();
+            services.AddDbContext<SalesboardContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("SalesboardContext")));
 
             services.AddControllersWithViews();
             services.AddRazorPages();
