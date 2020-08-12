@@ -32,8 +32,14 @@ namespace Assign1_Salesboard_Zephyr
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddDefaultIdentity<SalesboardContext>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<SalesboardContext>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

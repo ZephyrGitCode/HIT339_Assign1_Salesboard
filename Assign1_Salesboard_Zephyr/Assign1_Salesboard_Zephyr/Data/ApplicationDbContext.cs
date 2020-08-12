@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Assign1_Salesboard_Zephyr.DBData;
 
 namespace Assign1_Salesboard_Zephyr.Data
 {
@@ -12,5 +13,6 @@ namespace Assign1_Salesboard_Zephyr.Data
             : base(options)
         {
         }
+        
     }
 }
