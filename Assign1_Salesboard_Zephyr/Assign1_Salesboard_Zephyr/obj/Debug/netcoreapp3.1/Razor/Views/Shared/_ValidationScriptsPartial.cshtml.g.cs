@@ -21,13 +21,13 @@ using Assign1_Salesboard_Zephyr;
 #nullable disable
 #nullable restore
 #line 2 "C:\Users\zephy\Documents\SemesterTwo\HIT339 Distributed Dev\Assignment1\Assign1_Salesboard_s291065\Assign1_Salesboard_Zephyr\Assign1_Salesboard_Zephyr\Views\_ViewImports.cshtml"
-using Assign1_Salesboard_Zephyr.Models;
+using Assign1_Salesboard_Zephyr.DBData;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4b5e5ef4ebf7354cc35c7dacddd6bc3068f19a47", @"/Views/Shared/_ValidationScriptsPartial.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"cc09e8b6e63c102f051e819cc045dbc8f2ab9220", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"f6d65f6c938b91c1953b70942ec7a987843aa27c", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__ValidationScriptsPartial : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("src", new global::Microsoft.AspNetCore.Html.HtmlString("~/lib/jquery-validation/dist/jquery.validate.min.js"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);

@@ -1,6 +1,6 @@
 using System;
 
-namespace Assign1_Salesboard_Zephyr.Models
+namespace Assign1_Salesboard_Zephyr.DBData
 {
     public class ErrorViewModel
     {

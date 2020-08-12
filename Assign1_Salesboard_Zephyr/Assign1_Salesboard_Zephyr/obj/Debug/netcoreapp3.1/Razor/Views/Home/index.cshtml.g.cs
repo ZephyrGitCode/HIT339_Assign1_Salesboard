@@ -21,13 +21,13 @@ using Assign1_Salesboard_Zephyr;
 #nullable disable
 #nullable restore
 #line 2 "C:\Users\zephy\Documents\SemesterTwo\HIT339 Distributed Dev\Assignment1\Assign1_Salesboard_s291065\Assign1_Salesboard_Zephyr\Assign1_Salesboard_Zephyr\Views\_ViewImports.cshtml"
-using Assign1_Salesboard_Zephyr.Models;
+using Assign1_Salesboard_Zephyr.DBData;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"99464617055fdb505bb0bb7fd91f9b14f7b0d030", @"/Views/Home/index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"cc09e8b6e63c102f051e819cc045dbc8f2ab9220", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"f6d65f6c938b91c1953b70942ec7a987843aa27c", @"/Views/_ViewImports.cshtml")]
     public class Views_Home_index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #pragma warning disable 1998

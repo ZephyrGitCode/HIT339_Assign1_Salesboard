@@ -6,13 +6,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Assign1_Salesboard_Zephyr.Models
+namespace Assign1_Salesboard_Zephyr.DBData
 {
     public class Items
     {
         public int Id { get; set; }
 
-        [StringLength(60, MinimumLength = 3), Required]
+        [StringLength(60, MinimumLength = 3, ErrorMessage = "Between 3 and 60 characters, make it accurate and concise"), Required]
         public string Itemname { get; set; }
 
         [Display(Name = "Item Description"), StringLength(255)]
@@ -29,6 +29,10 @@ namespace Assign1_Salesboard_Zephyr.Models
 
         [StringLength(255)]
         public IFormFile Itemimage { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime Postdate { get; set; }
 
         //Make this user_id
         public string Seller { get; set; }

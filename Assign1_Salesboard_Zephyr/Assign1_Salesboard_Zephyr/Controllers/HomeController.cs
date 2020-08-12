@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Assign1_Salesboard_Zephyr.Models;
+using Assign1_Salesboard_Zephyr.DBData;
 
 namespace Assign1_Salesboard_Zephyr.Controllers
 {
