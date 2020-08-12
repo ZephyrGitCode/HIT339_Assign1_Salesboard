@@ -12,12 +12,12 @@ namespace Assign1_Salesboard_Zephyr.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<Assign1_Salesboard_ZephyrUser> _userManager;
-        private readonly SignInManager<Assign1_Salesboard_ZephyrUser> _signInManager;
+        private readonly UserManager<Zephyr_ApplicationUser> _userManager;
+        private readonly SignInManager<Zephyr_ApplicationUser> _signInManager;
 
         public IndexModel(
-            UserManager<Assign1_Salesboard_ZephyrUser> userManager,
-            SignInManager<Assign1_Salesboard_ZephyrUser> signInManager)
+            UserManager<Zephyr_ApplicationUser> userManager,
+            SignInManager<Zephyr_ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -38,7 +38,7 @@ namespace Assign1_Salesboard_Zephyr.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(Assign1_Salesboard_ZephyrUser user)
+        private async Task LoadAsync(Zephyr_ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);

@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Assign1_Salesboard_Zephyr.Data.Migrations
+namespace Assign1_Salesboard_Zephyr.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class InitialAppUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,7 +39,8 @@ namespace Assign1_Salesboard_Zephyr.Data.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    CustomTag = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,7 +52,7 @@ namespace Assign1_Salesboard_Zephyr.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -73,7 +73,7 @@ namespace Assign1_Salesboard_Zephyr.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -153,6 +153,31 @@ namespace Assign1_Salesboard_Zephyr.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Item",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SelleridId = table.Column<string>(nullable: false),
+                    Itemname = table.Column<string>(maxLength: 60, nullable: false),
+                    Itemdesc = table.Column<string>(maxLength: 255, nullable: true),
+                    Category = table.Column<string>(maxLength: 30, nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    Postdate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Item", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Item_AspNetUsers_SelleridId",
+                        column: x => x.SelleridId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +216,11 @@ namespace Assign1_Salesboard_Zephyr.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Item_SelleridId",
+                table: "Item",
+                column: "SelleridId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -209,6 +239,9 @@ namespace Assign1_Salesboard_Zephyr.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Item");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

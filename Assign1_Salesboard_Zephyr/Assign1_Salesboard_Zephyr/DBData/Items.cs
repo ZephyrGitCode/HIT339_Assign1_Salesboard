@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Assign1_Salesboard_Zephyr.Areas.Identity.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Assign1_Salesboard_Zephyr.DBData
         public int Id { get; set; }
 
         [Display(Name = "Seller"), Required]
-        public virtual IdentityUser Sellerid { get; set; }
+        public virtual Zephyr_ApplicationUser Seller { get; set; }
 
         /*
         [ForeignKey("AspNetUsers")]

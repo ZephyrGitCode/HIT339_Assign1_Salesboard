@@ -16,15 +16,12 @@ namespace Assign1_Salesboard_Zephyr.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<Assign1_Salesboard_ZephyrContext>(options =>
+                services.AddDbContext<Zephyr_ApplicationContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("DefaultConnection")));
-                /*
-                services.AddDefaultIdentity<Assign1_Salesboard_ZephyrUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<Assign1_Salesboard_ZephyrContext>();
-                */
-
-                services.AddIdentityCore<Assign1_Salesboard_ZephyrUser>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultUI();
+                
+                services.AddDefaultIdentity<Zephyr_ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<Zephyr_ApplicationContext>();
             });
         }
     }

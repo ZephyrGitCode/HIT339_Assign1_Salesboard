@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,15 +7,19 @@ using Assign1_Salesboard_Zephyr.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Assign1_Salesboard_Zephyr.DBData;
 
 namespace Assign1_Salesboard_Zephyr.Data
 {
-    public class Assign1_Salesboard_ZephyrContext : IdentityDbContext<Assign1_Salesboard_ZephyrUser>
+    public class Zephyr_ApplicationContext : IdentityDbContext<Zephyr_ApplicationUser>
     {
-        public Assign1_Salesboard_ZephyrContext(DbContextOptions<Assign1_Salesboard_ZephyrContext> options)
+        public Zephyr_ApplicationContext(DbContextOptions<Zephyr_ApplicationContext> options)
             : base(options)
         {
         }
+
+        public DbSet<Items> Item { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

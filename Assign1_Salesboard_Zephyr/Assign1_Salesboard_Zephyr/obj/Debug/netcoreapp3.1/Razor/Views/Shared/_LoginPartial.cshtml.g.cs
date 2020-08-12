@@ -211,9 +211,9 @@ using Assign1_Salesboard_Zephyr.Areas.Identity.Data;
         }
         #pragma warning restore 1998
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public UserManager<Assign1_Salesboard_ZephyrUser> UserManager { get; private set; }
+        public UserManager<Zephyr_ApplicationUser> UserManager { get; private set; }
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public SignInManager<Assign1_Salesboard_ZephyrUser> SignInManager { get; private set; }
+        public SignInManager<Zephyr_ApplicationUser> SignInManager { get; private set; }
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
         public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; }
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]

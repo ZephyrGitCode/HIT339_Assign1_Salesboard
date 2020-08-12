@@ -20,14 +20,14 @@ namespace Assign1_Salesboard_Zephyr.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<Assign1_Salesboard_ZephyrUser> _signInManager;
-        private readonly UserManager<Assign1_Salesboard_ZephyrUser> _userManager;
+        private readonly SignInManager<Zephyr_ApplicationUser> _signInManager;
+        private readonly UserManager<Zephyr_ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<Assign1_Salesboard_ZephyrUser> userManager,
-            SignInManager<Assign1_Salesboard_ZephyrUser> signInManager,
+            UserManager<Zephyr_ApplicationUser> userManager,
+            SignInManager<Zephyr_ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -75,7 +75,7 @@ namespace Assign1_Salesboard_Zephyr.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new Assign1_Salesboard_ZephyrUser { UserName = Input.Email, Email = Input.Email };
+                var user = new Zephyr_ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
