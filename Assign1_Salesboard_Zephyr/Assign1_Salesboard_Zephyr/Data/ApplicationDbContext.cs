@@ -13,6 +13,8 @@ namespace Assign1_Salesboard_Zephyr.Data
             : base(options)
         {
         }
-        
+
+        public DbSet<Items> Item { get; set; }
+
     }
 }

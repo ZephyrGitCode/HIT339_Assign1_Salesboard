@@ -13,10 +13,8 @@ namespace Assign1_Salesboard_Zephyr.DBData
     {
         public int Id { get; set; }
 
-        
-        public virtual IdentityUser id { get; set; }
         [Display(Name = "Seller"), Required]
-        public int userid { get; set; }
+        public virtual IdentityUser Sellerid { get; set; }
 
         /*
         [ForeignKey("AspNetUsers")]
@@ -38,10 +36,10 @@ namespace Assign1_Salesboard_Zephyr.DBData
         public decimal Price { get; set; }
 
         public int Quantity { get; set; }
-
+        /*
         [StringLength(255)]
         public IFormFile Itemimage { get; set; }
-
+        */
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Postdate { get; set; }
