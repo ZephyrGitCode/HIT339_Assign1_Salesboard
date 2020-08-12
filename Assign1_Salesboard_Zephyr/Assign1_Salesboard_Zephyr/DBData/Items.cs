@@ -17,12 +17,6 @@ namespace Assign1_Salesboard_Zephyr.DBData
         [Display(Name = "Seller"), Required]
         public virtual Zephyr_ApplicationUser Seller { get; set; }
 
-        /*
-        [ForeignKey("AspNetUsers")]
-        [Display(Name = "Seller")]
-        public int Sellerid { get; set; }
-        */
-
         [StringLength(60, MinimumLength = 3, ErrorMessage = "Between 3 and 60 characters, make it accurate and concise"), Required]
         public string Itemname { get; set; }
 
@@ -41,8 +35,8 @@ namespace Assign1_Salesboard_Zephyr.DBData
         [StringLength(255)]
         public IFormFile Itemimage { get; set; }
         */
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime Postdate { get; set; }
 
     }

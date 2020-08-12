@@ -12,10 +12,9 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
-    using Assign1_Salesboard_Zephyr.DBData;
 #nullable restore
 #line 1 "C:\Users\zephy\Documents\SemesterTwo\HIT339 Distributed Dev\Assignment1\Assign1_Salesboard_s291065\Assign1_Salesboard_Zephyr\Assign1_Salesboard_Zephyr\Areas\Identity\Pages\_ViewImports.cshtml"
-    using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 
 #line default
 #line hidden

@@ -4,14 +4,16 @@ using Assign1_Salesboard_Zephyr.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Assign1_Salesboard_Zephyr.Migrations
 {
     [DbContext(typeof(Zephyr_ApplicationContext))]
-    partial class Assign1_Salesboard_ZephyrContextModelSnapshot : ModelSnapshot
+    [Migration("20200812141429_GenerateDate")]
+    partial class GenerateDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

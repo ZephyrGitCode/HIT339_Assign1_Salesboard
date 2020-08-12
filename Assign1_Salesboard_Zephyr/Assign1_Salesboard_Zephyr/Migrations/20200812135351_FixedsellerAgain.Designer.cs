@@ -4,14 +4,16 @@ using Assign1_Salesboard_Zephyr.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Assign1_Salesboard_Zephyr.Migrations
 {
     [DbContext(typeof(Zephyr_ApplicationContext))]
-    partial class Assign1_Salesboard_ZephyrContextModelSnapshot : ModelSnapshot
+    [Migration("20200812135351_FixedsellerAgain")]
+    partial class FixedsellerAgain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,9 +110,7 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                         .HasMaxLength(60);
 
                     b.Property<DateTime>("Postdate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 2)");
@@ -119,7 +119,6 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SellerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -268,9 +267,7 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                 {
                     b.HasOne("Assign1_Salesboard_Zephyr.Areas.Identity.Data.Zephyr_ApplicationUser", "Seller")
                         .WithMany()
-                        .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SellerId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
