@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assign1_Salesboard_Zephyr.Migrations
 {
     [DbContext(typeof(Zephyr_ApplicationContext))]
-    partial class Assign1_Salesboard_ZephyrContextModelSnapshot : ModelSnapshot
+    partial class Zephyr_ApplicationContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,9 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomInt")
+                        .HasColumnType("int");
 
                     b.Property<string>("CustomTag")
                         .HasColumnType("nvarchar(max)");

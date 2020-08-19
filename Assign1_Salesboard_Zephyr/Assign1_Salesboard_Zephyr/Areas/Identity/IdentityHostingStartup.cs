@@ -19,7 +19,7 @@ namespace Assign1_Salesboard_Zephyr.Areas.Identity
                 services.AddDbContext<Zephyr_ApplicationContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("DefaultConnection")));
-                
+                    
                 services.AddDefaultIdentity<Zephyr_ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<Zephyr_ApplicationContext>();
             });

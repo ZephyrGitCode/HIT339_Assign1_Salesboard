@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Assign1_Salesboard_Zephyr.Areas.Identity.Data
-@inject SignInManager<Assign1_Salesboard_ZephyrUser> SignInManager
-@inject UserManager<Assign1_Salesboard_ZephyrUser> UserManager
+@inject SignInManager<Zephyr_ApplicationUser> SignInManager
+@inject UserManager<Zephyr_ApplicationUser> UserManager
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))

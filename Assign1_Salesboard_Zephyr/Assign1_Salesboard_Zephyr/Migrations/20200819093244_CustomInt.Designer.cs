@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assign1_Salesboard_Zephyr.Migrations
 {
     [DbContext(typeof(Zephyr_ApplicationContext))]
-    [Migration("20200812140759_Date2")]
-    partial class Date2
+    [Migration("20200819093244_CustomInt")]
+    partial class CustomInt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,6 +32,9 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomInt")
+                        .HasColumnType("int");
 
                     b.Property<string>("CustomTag")
                         .HasColumnType("nvarchar(max)");
@@ -111,7 +114,8 @@ namespace Assign1_Salesboard_Zephyr.Migrations
 
                     b.Property<DateTime>("Postdate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 2)");

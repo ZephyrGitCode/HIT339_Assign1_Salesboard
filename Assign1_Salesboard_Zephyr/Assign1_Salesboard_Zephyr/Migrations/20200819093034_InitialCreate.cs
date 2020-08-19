@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Assign1_Salesboard_Zephyr.Migrations
 {
-    public partial class InitialAppUser : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -159,20 +159,20 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SelleridId = table.Column<string>(nullable: false),
+                    SellerId = table.Column<string>(nullable: false),
                     Itemname = table.Column<string>(maxLength: 60, nullable: false),
                     Itemdesc = table.Column<string>(maxLength: 255, nullable: true),
                     Category = table.Column<string>(maxLength: 30, nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    Postdate = table.Column<DateTime>(nullable: false)
+                    Postdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Item", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Item_AspNetUsers_SelleridId",
-                        column: x => x.SelleridId,
+                        name: "FK_Item_AspNetUsers_SellerId",
+                        column: x => x.SellerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -218,9 +218,9 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Item_SelleridId",
+                name: "IX_Item_SellerId",
                 table: "Item",
-                column: "SelleridId");
+                column: "SellerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

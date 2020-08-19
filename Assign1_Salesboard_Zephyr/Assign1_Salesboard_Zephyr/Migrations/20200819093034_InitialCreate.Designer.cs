@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assign1_Salesboard_Zephyr.Migrations
 {
     [DbContext(typeof(Zephyr_ApplicationContext))]
-    [Migration("20200812135228_Fixedseller")]
-    partial class Fixedseller
+    [Migration("20200819093034_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -110,7 +110,9 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                         .HasMaxLength(60);
 
                     b.Property<DateTime>("Postdate")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 2)");
@@ -118,13 +120,13 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("SellerIdId")
+                    b.Property<string>("SellerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SellerIdId");
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Item");
                 });
@@ -266,9 +268,9 @@ namespace Assign1_Salesboard_Zephyr.Migrations
 
             modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Items", b =>
                 {
-                    b.HasOne("Assign1_Salesboard_Zephyr.Areas.Identity.Data.Zephyr_ApplicationUser", "SellerId")
-                        .WithMany()
-                        .HasForeignKey("SellerIdId")
+                    b.HasOne("Assign1_Salesboard_Zephyr.Areas.Identity.Data.Zephyr_ApplicationUser", "Seller")
+                        .WithMany("Items")
+                        .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
