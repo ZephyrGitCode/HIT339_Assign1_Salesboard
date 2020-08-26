@@ -7,6 +7,10 @@
     "mssql2": {
       "type": "mssql",
       "connectionId": "Assign1_Salesboard_ZephyrContextConnection"
+    },
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "Assign1_Salesboard_ZephyrContext"
     }
   }
 }
