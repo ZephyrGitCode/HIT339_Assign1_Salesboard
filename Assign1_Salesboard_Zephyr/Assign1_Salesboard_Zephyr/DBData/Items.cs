@@ -18,7 +18,7 @@ namespace Assign1_Salesboard_Zephyr.DBData
         public virtual Zephyr_ApplicationUser Seller { get; set; }
 
         [StringLength(60, MinimumLength = 3, ErrorMessage = "Between 3 and 60 characters, make it accurate and concise"), Required]
-        public string Itemname { get; set; }
+        public string Item { get; set; }
 
         [Display(Name = "Item Description"), StringLength(255)]
         public string Itemdesc { get; set; }
@@ -31,10 +31,9 @@ namespace Assign1_Salesboard_Zephyr.DBData
         public decimal Price { get; set; }
 
         public int Quantity { get; set; }
-        /*
-        [StringLength(255)]
-        public IFormFile Itemimage { get; set; }
-        */
+        
+        public string Itemimage { get; set; }
+        
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime Postdate { get; set; }

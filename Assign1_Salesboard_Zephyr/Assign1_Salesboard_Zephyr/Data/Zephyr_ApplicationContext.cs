@@ -20,6 +20,8 @@ namespace Assign1_Salesboard_Zephyr.Data
 
         public DbSet<Items> Item { get; set; }
 
+        public DbSet<Sales> Sale { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

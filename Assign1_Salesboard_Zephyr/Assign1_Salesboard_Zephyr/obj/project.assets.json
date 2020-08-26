@@ -8752,8 +8752,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\zephy\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\zephy\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -8764,9 +8763,6 @@
       "packagesPath": "C:\\Users\\zephy\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\zephy\\Documents\\SemesterTwo\\HIT339 Distributed Dev\\Assignment1\\Assign1_Salesboard_s291065\\Assign1_Salesboard_Zephyr\\Assign1_Salesboard_Zephyr\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
         "C:\\Users\\zephy\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -8835,7 +8831,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

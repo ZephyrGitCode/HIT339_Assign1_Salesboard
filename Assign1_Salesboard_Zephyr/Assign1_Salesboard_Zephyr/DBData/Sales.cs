@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assign1_Salesboard_Zephyr.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,17 +12,11 @@ namespace Assign1_Salesboard_Zephyr.DBData
     {
         public int Id { get; set; }
 
-        [ForeignKey("AspNetUsers")]
-        [Display(Name = "Seller")]
-        public int Sellerid { get; set; }
+        public virtual Items Item { get; set; }
 
-        [ForeignKey("Items")]
-        [Required]
-        public int Itemid { get; set; }
+        public virtual Zephyr_ApplicationUser Buyer { get; set; }
 
-
-
-
+        public int Quantity { get; set; }
 
     }
 }
