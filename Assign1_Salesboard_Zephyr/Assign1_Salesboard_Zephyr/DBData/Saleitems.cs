@@ -11,7 +11,7 @@ namespace Assign1_Salesboard_Zephyr.DBData
 
         public int CartId { get; set; }
 
-        public virtual Items Item { get; set; }
+        public virtual Item Item { get; set; }
 
         public int Quantity { get; set; }
 

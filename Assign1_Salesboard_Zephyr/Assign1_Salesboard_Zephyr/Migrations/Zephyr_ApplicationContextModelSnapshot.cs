@@ -110,7 +110,7 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Items", b =>
+            modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Item", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -121,17 +121,17 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
-                    b.Property<string>("Item")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(60)")
-                        .HasMaxLength(60);
-
                     b.Property<string>("Itemdesc")
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
                     b.Property<string>("Itemimage")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Itemname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
 
                     b.Property<DateTime>("Postdate")
                         .ValueGeneratedOnAdd()
@@ -144,13 +144,13 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("SellerId")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SellerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Item");
                 });
@@ -338,18 +338,18 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Items", b =>
+            modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Item", b =>
                 {
-                    b.HasOne("Assign1_Salesboard_Zephyr.Areas.Identity.Data.Zephyr_ApplicationUser", "Seller")
+                    b.HasOne("Assign1_Salesboard_Zephyr.Areas.Identity.Data.Zephyr_ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("SellerId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Saleitems", b =>
                 {
-                    b.HasOne("Assign1_Salesboard_Zephyr.DBData.Items", "Item")
+                    b.HasOne("Assign1_Salesboard_Zephyr.DBData.Item", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId");
                 });
@@ -360,7 +360,7 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                         .WithMany()
                         .HasForeignKey("BuyerId");
 
-                    b.HasOne("Assign1_Salesboard_Zephyr.DBData.Items", "Item")
+                    b.HasOne("Assign1_Salesboard_Zephyr.DBData.Item", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId");
                 });

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Assign1_Salesboard_Zephyr.Migrations
 {
-    public partial class InitialIdentity : Migration
+    public partial class InitialCreateAll : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -166,8 +166,8 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SellerId = table.Column<string>(nullable: false),
-                    Item = table.Column<string>(maxLength: 60, nullable: false),
+                    UserId = table.Column<string>(nullable: false),
+                    Itemname = table.Column<string>(maxLength: 60, nullable: false),
                     Itemdesc = table.Column<string>(maxLength: 255, nullable: true),
                     Category = table.Column<string>(maxLength: 30, nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
@@ -179,11 +179,59 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                 {
                     table.PrimaryKey("PK_Item", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Item_AspNetUsers_SellerId",
-                        column: x => x.SellerId,
+                        name: "FK_Item_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sale",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemId = table.Column<int>(nullable: true),
+                    BuyerId = table.Column<string>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sale", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sale_AspNetUsers_BuyerId",
+                        column: x => x.BuyerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Sale_Item_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Item",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Saleitem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CartId = table.Column<int>(nullable: false),
+                    ItemId = table.Column<int>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Saleitem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Saleitem_Item_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Item",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -226,9 +274,24 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Item_SellerId",
+                name: "IX_Item_UserId",
                 table: "Item",
-                column: "SellerId");
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sale_BuyerId",
+                table: "Sale",
+                column: "BuyerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sale_ItemId",
+                table: "Sale",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Saleitem_ItemId",
+                table: "Saleitem",
+                column: "ItemId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -249,10 +312,16 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Item");
+                name: "Sale");
+
+            migrationBuilder.DropTable(
+                name: "Saleitem");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Item");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

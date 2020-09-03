@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Assign1_Salesboard_Zephyr.DBData.Items>
+﻿@model IEnumerable<Assign1_Salesboard_Zephyr.DBData.Item>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Item)
+                @Html.DisplayNameFor(model => model.Itemname)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Itemdesc)
@@ -40,7 +40,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Item)
+                @Html.DisplayFor(modelItem => item.Itemname)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Itemdesc)

@@ -1,21 +1,29 @@
-﻿@model Assign1_Salesboard_Zephyr.DBData.Items
+﻿@model Assign1_Salesboard_Zephyr.DBData.Item
+@using Microsoft.AspNetCore.Identity
+@using Assign1_Salesboard_Zephyr.Areas.Identity.Data
+@using System.Security.Claims;
+@inject SignInManager<Zephyr_ApplicationUser> SignInManager
+@inject UserManager<Zephyr_ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Create";
+    var user = await UserManager.GetUserAsync(User);
+    var userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 
 <h1>Create</h1>
 
-<h4>Items</h4>
+<h4>Item</h4>
+<p>User: @user</p>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Item" class="control-label"></label>
-                <input asp-for="Item" class="form-control" />
-                <span asp-validation-for="Item" class="text-danger"></span>
+                <label asp-for="Itemname" class="control-label"></label>
+                <input asp-for="Itemname" class="form-control" />
+                <span asp-validation-for="Itemname" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Itemdesc" class="control-label"></label>
@@ -41,6 +49,11 @@
                 <label asp-for="Itemimage" class="control-label"></label>
                 <input asp-for="Itemimage" class="form-control" />
                 <span asp-validation-for="Itemimage" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" value="@userid" hidden />
+                <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

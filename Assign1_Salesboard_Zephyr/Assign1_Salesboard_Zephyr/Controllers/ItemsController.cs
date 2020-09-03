@@ -5,23 +5,38 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Assign1_Salesboard_Zephyr;
 using Assign1_Salesboard_Zephyr.DBData;
 using Assign1_Salesboard_Zephyr.Data;
+using Assign1_Salesboard_Zephyr.Areas.Identity.Data;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 
 namespace Assign1_Salesboard_Zephyr.Controllers
 {
+    [ActivatorUtilitiesConstructor]
     public class ItemsController : Controller
     {
-        private readonly Zephyr_ApplicationContext _context;
 
-        public ItemsController(Zephyr_ApplicationContext context)
+        private readonly UserManager<Zephyr_ApplicationUser> _userManager;
+
+        private readonly Zephyr_ApplicationContext _context;
+        //private object _userManager;
+        public ItemsController(Zephyr_ApplicationContext context, UserManager<Zephyr_ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Items
         public async Task<IActionResult> Index()
         {
+            var userid = User.FindFirstValue(ClaimTypes.NameIdentifier); // Will return userID
+
+            //Zephyr_ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+            //string userEmail = applicationUser?.Email; // will give the user's Email
             return View(await _context.Item.ToListAsync());
         }
 
@@ -33,14 +48,14 @@ namespace Assign1_Salesboard_Zephyr.Controllers
                 return NotFound();
             }
 
-            var items = await _context.Item
+            var item = await _context.Item
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (items == null)
+            if (item == null)
             {
                 return NotFound();
             }
 
-            return View(items);
+            return View(item);
         }
 
         // GET: Items/Create
@@ -54,15 +69,15 @@ namespace Assign1_Salesboard_Zephyr.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Item,Itemdesc,Category,Price,Quantity,Itemimage,Postdate")] Items items)
+        public async Task<IActionResult> Create([Bind("Id,UserId,Itemname,Itemdesc,Category,Price,Quantity,Itemimage,Postdate")] Item item)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(items);
+                _context.Add(item);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(items);
+            return View(item);
         }
 
         // GET: Items/Edit/5
@@ -73,12 +88,12 @@ namespace Assign1_Salesboard_Zephyr.Controllers
                 return NotFound();
             }
 
-            var items = await _context.Item.FindAsync(id);
-            if (items == null)
+            var item = await _context.Item.FindAsync(id);
+            if (item == null)
             {
                 return NotFound();
             }
-            return View(items);
+            return View(item);
         }
 
         // POST: Items/Edit/5
@@ -86,9 +101,9 @@ namespace Assign1_Salesboard_Zephyr.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Item,Itemdesc,Category,Price,Quantity,Itemimage,Postdate")] Items items)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Itemname,Itemdesc,Category,Price,Quantity,Itemimage,Postdate")] Item item)
         {
-            if (id != items.Id)
+            if (id != item.Id)
             {
                 return NotFound();
             }
@@ -97,12 +112,12 @@ namespace Assign1_Salesboard_Zephyr.Controllers
             {
                 try
                 {
-                    _context.Update(items);
+                    _context.Update(item);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ItemsExists(items.Id))
+                    if (!ItemExists(item.Id))
                     {
                         return NotFound();
                     }
@@ -113,7 +128,7 @@ namespace Assign1_Salesboard_Zephyr.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(items);
+            return View(item);
         }
 
         // GET: Items/Delete/5
@@ -124,14 +139,14 @@ namespace Assign1_Salesboard_Zephyr.Controllers
                 return NotFound();
             }
 
-            var items = await _context.Item
+            var item = await _context.Item
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (items == null)
+            if (item == null)
             {
                 return NotFound();
             }
 
-            return View(items);
+            return View(item);
         }
 
         // POST: Items/Delete/5
@@ -139,13 +154,13 @@ namespace Assign1_Salesboard_Zephyr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var items = await _context.Item.FindAsync(id);
-            _context.Item.Remove(items);
+            var item = await _context.Item.FindAsync(id);
+            _context.Item.Remove(item);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ItemsExists(int id)
+        private bool ItemExists(int id)
         {
             return _context.Item.Any(e => e.Id == id);
         }

@@ -10,15 +10,19 @@ using System.Threading.Tasks;
 
 namespace Assign1_Salesboard_Zephyr.DBData
 {
-    public class Items
+    public class Item
     {
         public int Id { get; set; }
 
         [Display(Name = "Seller"), Required]
-        public virtual Zephyr_ApplicationUser Seller { get; set; }
+        public string UserId { get; set; }
+        public Zephyr_ApplicationUser User { get; set; }
+        
+        //public Zephyr_ApplicationUser Seller { get; set; }
+        //public virtual Zephyr_ApplicationUser Seller { get; set; }
 
-        [StringLength(60, MinimumLength = 3, ErrorMessage = "Between 3 and 60 characters, make it accurate and concise"), Required]
-        public string Item { get; set; }
+        [Display(Name = "Item Name"),StringLength(60, MinimumLength = 3, ErrorMessage = "Between 3 and 60 characters, make it accurate and concise"), Required]
+        public string Itemname { get; set; }
 
         [Display(Name = "Item Description"), StringLength(255)]
         public string Itemdesc { get; set; }
@@ -37,6 +41,5 @@ namespace Assign1_Salesboard_Zephyr.DBData
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime Postdate { get; set; }
-
     }
 }

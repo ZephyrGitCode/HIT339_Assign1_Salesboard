@@ -12,6 +12,7 @@ using Assign1_Salesboard_Zephyr.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Assign1_Salesboard_Zephyr;
 
 namespace Assign1_Salesboard_Zephyr
 {
@@ -33,10 +34,6 @@ namespace Assign1_Salesboard_Zephyr
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 //.AddEntityFrameworkStores<Assign1_Salesboard_ZephyrContext>();
 
-            /*
-            services.AddDbContext<SalesboardContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            */
             services.AddControllersWithViews();
             services.AddRazorPages();
 

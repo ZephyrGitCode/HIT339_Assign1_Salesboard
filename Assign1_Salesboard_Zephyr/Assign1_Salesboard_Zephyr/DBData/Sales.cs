@@ -12,7 +12,7 @@ namespace Assign1_Salesboard_Zephyr.DBData
     {
         public int Id { get; set; }
 
-        public virtual Items Item { get; set; }
+        public virtual Item Item { get; set; }
 
         public virtual Zephyr_ApplicationUser Buyer { get; set; }
 

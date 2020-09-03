@@ -18,7 +18,7 @@ namespace Assign1_Salesboard_Zephyr.Data
         {
         }
 
-        public DbSet<Items> Item { get; set; }
+        public DbSet<Item> Item { get; set; }
 
         public DbSet<Sales> Sale { get; set; }
 
@@ -31,7 +31,7 @@ namespace Assign1_Salesboard_Zephyr.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
-            builder.Entity<Items>().Property(b => b.Postdate).HasDefaultValueSql("getdate()");
+            builder.Entity<Item>().Property(b => b.Postdate).HasDefaultValueSql("getdate()");
         }
     }
 }

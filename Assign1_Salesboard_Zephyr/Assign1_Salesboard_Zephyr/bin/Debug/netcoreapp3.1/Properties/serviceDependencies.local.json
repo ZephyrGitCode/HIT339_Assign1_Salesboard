@@ -11,6 +11,10 @@
     "mssql3": {
       "type": "mssql.local",
       "connectionId": "Assign1_Salesboard_ZephyrContext"
+    },
+    "mssql4": {
+      "type": "mssql.local",
+      "connectionId": "Context"
     }
   }
 }
