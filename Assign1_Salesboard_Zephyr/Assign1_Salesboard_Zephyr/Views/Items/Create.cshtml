@@ -1,20 +1,11 @@
 ﻿@model Assign1_Salesboard_Zephyr.DBData.Item
-@using Microsoft.AspNetCore.Identity
-@using Assign1_Salesboard_Zephyr.Areas.Identity.Data
-@using System.Security.Claims;
-@inject SignInManager<Zephyr_ApplicationUser> SignInManager
-@inject UserManager<Zephyr_ApplicationUser> UserManager
-
 @{
     ViewData["Title"] = "Create";
-    var user = await UserManager.GetUserAsync(User);
-    var userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 
 <h1>Create</h1>
 
 <h4>Item</h4>
-<p>User: @user</p>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -50,9 +41,9 @@
                 <input asp-for="Itemimage" class="form-control" />
                 <span asp-validation-for="Itemimage" class="text-danger"></span>
             </div>
-            <div class="form-group" hidden>
+            <div class="form-group">
                 <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" value="@userid" hidden />
+                <input asp-for="UserId" class="form-control" value="@ViewBag.UserId" hidden />
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
             <div class="form-group">

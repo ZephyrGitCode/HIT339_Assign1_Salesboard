@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Assign1_Salesboard_Zephyr.DBData
 {
-    public class Saleitems
+    public class Cart
     {
         public int Id { get; set; }
 
-        public int CartId { get; set; }
+        [Display(Name = "Cart ID"), Required]
+        public string CartId { get; set; }
 
-        public virtual Item Item { get; set; }
+        [Display(Name = "Item ID"), Required]
+        public int ItemId { get; set; }
 
         public int Quantity { get; set; }
 

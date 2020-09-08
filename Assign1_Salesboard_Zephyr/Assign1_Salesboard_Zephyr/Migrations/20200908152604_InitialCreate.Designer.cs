@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assign1_Salesboard_Zephyr.Migrations
 {
     [DbContext(typeof(Zephyr_ApplicationContext))]
-    [Migration("20200902114844_InitialCreateAll")]
-    partial class InitialCreateAll
+    [Migration("20200908152604_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,6 +52,9 @@ namespace Assign1_Salesboard_Zephyr.Migrations
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Lname")
                         .HasColumnType("nvarchar(50)")
@@ -112,6 +115,27 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CartId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Saleitem");
+                });
+
             modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Item", b =>
                 {
                     b.Property<int>("Id")
@@ -140,8 +164,8 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -157,30 +181,7 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                     b.ToTable("Item");
                 });
 
-            modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Saleitems", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("Saleitem");
-                });
-
-            modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Sales", b =>
+            modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Sale", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -188,19 +189,16 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BuyerId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ItemId")
+                    b.Property<int>("ItemId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BuyerId");
-
-                    b.HasIndex("ItemId");
 
                     b.ToTable("Sale");
                 });
@@ -347,24 +345,6 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Saleitems", b =>
-                {
-                    b.HasOne("Assign1_Salesboard_Zephyr.DBData.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId");
-                });
-
-            modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Sales", b =>
-                {
-                    b.HasOne("Assign1_Salesboard_Zephyr.Areas.Identity.Data.Zephyr_ApplicationUser", "Buyer")
-                        .WithMany()
-                        .HasForeignKey("BuyerId");
-
-                    b.HasOne("Assign1_Salesboard_Zephyr.DBData.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

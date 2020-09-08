@@ -36,6 +36,28 @@ namespace Assign1_Salesboard_Zephyr.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [StringLength(25)]
+            [Display(Name = "First Name")]
+            public string Fname { get; set; }
+
+            [StringLength(50)]
+            [Display(Name = "Last Name")]
+            public string Lname { get; set; }
+
+            [Range(16, 120)]
+            [Display(Name = "Age")]
+            public int Age { get; set; }
+
+            public string Image { get; set; }
+
+            public string State { get; set; }
+
+            public string City { get; set; }
+
+            public string Postcode { get; set; }
+
+            public string Street { get; set; }
         }
 
         private async Task LoadAsync(Zephyr_ApplicationUser user)
@@ -47,7 +69,15 @@ namespace Assign1_Salesboard_Zephyr.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Fname = user.Fname,
+                Lname = user.Lname,
+                Age = user.Age,
+                Image = user.Image,
+                State = user.State,
+                City = user.City,
+                Postcode = user.Postcode,
+                Street = user.Street
             };
         }
 
@@ -87,6 +117,48 @@ namespace Assign1_Salesboard_Zephyr.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+
+            if (Input.Fname != user.Fname)
+            {
+                user.Fname = Input.Fname;
+            }
+
+            if (Input.Lname != user.Lname)
+            {
+                user.Lname = Input.Lname;
+            }
+
+            if (Input.Age != user.Age)
+            {
+                user.Age = Input.Age;
+            }
+
+            if (Input.Image != user.Image)
+            {
+                user.Image = Input.Image;
+            }
+
+            if (Input.State != user.State)
+            {
+                user.State = Input.State;
+            }
+
+            if (Input.City != user.City)
+            {
+                user.City = Input.City;
+            }
+
+            if (Input.Postcode != user.Postcode)
+            {
+                user.Postcode = Input.Postcode;
+            }
+
+            if (Input.Street != user.Street)
+            {
+                user.Street = Input.Street;
+            }
+
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

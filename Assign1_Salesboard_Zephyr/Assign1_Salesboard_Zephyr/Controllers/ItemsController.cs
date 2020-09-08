@@ -13,31 +13,49 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Assign1_Salesboard_Zephyr.Controllers
 {
     [ActivatorUtilitiesConstructor]
     public class ItemsController : Controller
     {
+        private readonly Zephyr_ApplicationContext _context;
 
         private readonly UserManager<Zephyr_ApplicationUser> _userManager;
 
-        private readonly Zephyr_ApplicationContext _context;
-        //private object _userManager;
-        public ItemsController(Zephyr_ApplicationContext context, UserManager<Zephyr_ApplicationUser> userManager)
+        private readonly IHttpContextAccessor _session;
+
+        public ItemsController(Zephyr_ApplicationContext context, UserManager<Zephyr_ApplicationUser> userManager, IHttpContextAccessor session)
         {
             _context = context;
             _userManager = userManager;
+            _session = session;
         }
 
+        [AllowAnonymous]
         // GET: Items
         public async Task<IActionResult> Index()
         {
-            var userid = User.FindFirstValue(ClaimTypes.NameIdentifier); // Will return userID
+            ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
+
+            return View(await _context.Item.ToListAsync());
+        }
+
+        // GET: My Items
+        public ActionResult MyItems()
+        {
+            //var userid = User.FindFirstValue(ClaimTypes.NameIdentifier); // Will return userID
 
             //Zephyr_ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
             //string userEmail = applicationUser?.Email; // will give the user's Email
-            return View(await _context.Item.ToListAsync());
+            
+            var seller = _userManager.GetUserId(HttpContext.User);
+            var items = _context.Item
+                .Where(m => m.UserId == seller);
+
+            //return View("Index", items);
+            return View("Index",items);
         }
 
         // GET: Items/Details/5
@@ -61,6 +79,7 @@ namespace Assign1_Salesboard_Zephyr.Controllers
         // GET: Items/Create
         public IActionResult Create()
         {
+            ViewBag.UserId = _userManager.GetUserId(HttpContext.User); // Returns UserID to place in hidden field for submission
             return View();
         }
 
@@ -129,6 +148,52 @@ namespace Assign1_Salesboard_Zephyr.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(item);
+        }
+
+        // GET: Items/Purchase/5
+        public async Task<IActionResult> Purchase(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var items = await _context.Item
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (items == null)
+            {
+                return NotFound();
+            }
+
+            return View(items);
+        }
+
+        // POST: Items/Purchase/5
+        [HttpPost, ActionName("Purchase")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PurchaseConfirmed([Bind("Quantity,ItemId")] Cart cart)
+        {
+            // Get or Create a cart ID
+            string cartId = _session.HttpContext.Session.GetString("cartId");
+
+            if (string.IsNullOrEmpty(cartId) == true) cartId = Guid.NewGuid().ToString();
+
+            // Use the cart id
+            cart.CartId = cartId.ToString();
+
+            // Make the sale
+            _context.Add(cart);
+
+            // Save the changes
+            await _context.SaveChangesAsync();
+
+            // Add to cart
+            var checkCount = _session.HttpContext.Session.GetInt32("cartCount");
+            int cartCount = checkCount == null ? 0 : (int)checkCount;
+            _session.HttpContext.Session.SetString("cartId", cartId.ToString());
+            _session.HttpContext.Session.SetInt32("cartCount", ++cartCount);
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Items/Delete/5

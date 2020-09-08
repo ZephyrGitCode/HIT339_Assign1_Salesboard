@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 
 namespace Assign1_Salesboard_Zephyr.DBData
 {
-    public class Sales
+    public class Sale
     {
         public int Id { get; set; }
 
-        public virtual Item Item { get; set; }
-
-        public virtual Zephyr_ApplicationUser Buyer { get; set; }
+        [Display(Name = "Item"), Required]
+        public int ItemId { get; set; }
+        
+        [Display(Name = "Buyer"), Required]
+        public string BuyerId { get; set; }
+        
 
         public int Quantity { get; set; }
 
