@@ -55,6 +55,14 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (ViewBag.UserId == Model.UserId)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit |</a>
+        <a asp-action="MyItems">Back to List</a>
+    }
+    else
+    {
+        <a asp-action="Index">Back to List</a>
+    }
+
 </div>

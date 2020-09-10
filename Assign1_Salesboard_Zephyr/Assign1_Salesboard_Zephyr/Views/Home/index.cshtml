@@ -1,8 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to our Online Salesboard!</h1>
+    <h2>Your one-stop shop for e-commerce</h2>
+    <hr />
+    <h5>Shop Now</h5>
+    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Items" asp-action="Index">All Items</a>
+    <hr />
+    <h5>Just For You</h5>
+    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Items" asp-action="MyItems">My Items on Sale</a>
+    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Carts" asp-action="Index">Shopping Cart</a>
+    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Sales" asp-action="Index">Purchase History</a>
+    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Settings</a>
+    @ViewBag.UserId
 </div>

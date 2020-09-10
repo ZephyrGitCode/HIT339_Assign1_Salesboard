@@ -7,22 +7,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assign1_Salesboard_Zephyr.DBData;
 using Assign1_Salesboard_Zephyr.Data;
+using Microsoft.AspNetCore.Identity;
+using Assign1_Salesboard_Zephyr.Areas.Identity.Data;
 
 namespace Assign1_Salesboard_Zephyr.Controllers
 {
     public class SalesController : Controller
     {
         private readonly Zephyr_ApplicationContext _context;
+        private readonly UserManager<Zephyr_ApplicationUser> _userManager;
 
-        public SalesController(Zephyr_ApplicationContext context)
+        public SalesController(Zephyr_ApplicationContext context, UserManager<Zephyr_ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Sales
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Sale.ToListAsync());
+            var buyer = _userManager.GetUserId(HttpContext.User);
+            ViewBag.UserId = buyer;
+            var sales = _context.Sale
+                .Where(m => m.BuyerId == buyer);
+            return View(sales);
         }
 
         // GET: Sales/Details/5

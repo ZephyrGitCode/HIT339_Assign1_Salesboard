@@ -15,11 +15,17 @@ namespace Assign1_Salesboard_Zephyr.DBData
         [Display(Name = "Item"), Required]
         public int ItemId { get; set; }
         
+        [Display(Name = "Seller"), Required]
+        public string SellerId { get; set; }
+
         [Display(Name = "Buyer"), Required]
         public string BuyerId { get; set; }
-        
 
-        public int Quantity { get; set; }
+        [Display(Name = "Total Cost"), Required]
+        public double TotalPrice { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity), Display(Name = "Purchase Time")]
+        public DateTime SaleDate { get; set; }
 
     }
 }

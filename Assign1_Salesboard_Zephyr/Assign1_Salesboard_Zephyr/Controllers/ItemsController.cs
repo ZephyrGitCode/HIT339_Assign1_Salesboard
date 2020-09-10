@@ -37,9 +37,10 @@ namespace Assign1_Salesboard_Zephyr.Controllers
         // GET: Items
         public async Task<IActionResult> Index()
         {
-            ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
+            var items = _context.Item
+                .Where(m => m.Quantity != 0);
 
-            return View(await _context.Item.ToListAsync());
+            return View(items);
         }
 
         // GET: My Items
@@ -49,10 +50,15 @@ namespace Assign1_Salesboard_Zephyr.Controllers
 
             //Zephyr_ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
             //string userEmail = applicationUser?.Email; // will give the user's Email
-            
             var seller = _userManager.GetUserId(HttpContext.User);
+            ViewBag.UserId = seller;
             var items = _context.Item
                 .Where(m => m.UserId == seller);
+            
+            var sales = _context.Sale
+                .Where(s => s.SellerId == seller);
+
+            ViewBag.Sales = sales;
 
             //return View("Index", items);
             return View("Index",items);
@@ -65,7 +71,7 @@ namespace Assign1_Salesboard_Zephyr.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
             var item = await _context.Item
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (item == null)
@@ -112,6 +118,10 @@ namespace Assign1_Salesboard_Zephyr.Controllers
             {
                 return NotFound();
             }
+
+            var seller = _userManager.GetUserId(HttpContext.User);
+            ViewBag.UserId = seller;
+
             return View(item);
         }
 
@@ -120,8 +130,11 @@ namespace Assign1_Salesboard_Zephyr.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Itemname,Itemdesc,Category,Price,Quantity,Itemimage,Postdate")] Item item)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,Itemname,Itemdesc,Category,Price,Quantity,Itemimage,Postdate")] Item item)
         {
+            var seller = _userManager.GetUserId(HttpContext.User);
+            ViewBag.UserId = seller;
+
             if (id != item.Id)
             {
                 return NotFound();
@@ -192,8 +205,8 @@ namespace Assign1_Salesboard_Zephyr.Controllers
             int cartCount = checkCount == null ? 0 : (int)checkCount;
             _session.HttpContext.Session.SetString("cartId", cartId.ToString());
             _session.HttpContext.Session.SetInt32("cartCount", ++cartCount);
-
-            return RedirectToAction(nameof(Index));
+            
+            return RedirectToAction(nameof(Index),"Carts");
         }
 
         // GET: Items/Delete/5

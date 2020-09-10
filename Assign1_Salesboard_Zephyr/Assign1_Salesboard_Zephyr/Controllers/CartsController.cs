@@ -7,6 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assign1_Salesboard_Zephyr.DBData;
 using Assign1_Salesboard_Zephyr.Data;
+using Microsoft.AspNetCore.Identity;
+using Assign1_Salesboard_Zephyr.Areas.Identity.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
 
 namespace Assign1_Salesboard_Zephyr.Controllers
 {
@@ -14,9 +20,15 @@ namespace Assign1_Salesboard_Zephyr.Controllers
     {
         private readonly Zephyr_ApplicationContext _context;
 
-        public CartsController(Zephyr_ApplicationContext context)
+        private readonly UserManager<Zephyr_ApplicationUser> _userManager;
+
+        private readonly IHttpContextAccessor _session;
+
+        public CartsController(Zephyr_ApplicationContext context, UserManager<Zephyr_ApplicationUser> userManager, IHttpContextAccessor session)
         {
             _context = context;
+            _userManager = userManager;
+            _session = session;
         }
 
         // GET: Carts
@@ -142,7 +154,61 @@ namespace Assign1_Salesboard_Zephyr.Controllers
             var cart = await _context.Cart.FindAsync(id);
             _context.Cart.Remove(cart);
             await _context.SaveChangesAsync();
+
+            // remove from cart
+            var checkCount = _session.HttpContext.Session.GetInt32("cartCount");
+            int cartCount = checkCount == null ? 0 : (int)checkCount;
+            _session.HttpContext.Session.SetInt32("cartCount", --cartCount);
+
             return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Items/Purchase
+        [Authorize]
+        public async Task<IActionResult> Checkout()
+        {
+            // Get or Create a cart ID
+            var cartId = _session.HttpContext.Session.GetString("cartId");
+
+            // get the cart items
+            var carts = _context.Cart
+                .Where(c => c.CartId == cartId);
+
+            // Gets buyer's ID
+            var buyer = _userManager.GetUserId(HttpContext.User);
+
+            // create the sales
+            foreach (Cart cart in carts.ToList())
+            {
+                // find the item
+                var item = await _context.Item
+                    .FirstOrDefaultAsync(m => m.Id == cart.ItemId);
+
+                // update the quantity
+                item.Quantity -= cart.Quantity;
+                _context.Update(item);
+
+                Sale sale = new Sale { SellerId = item.UserId, BuyerId = buyer, ItemId = cart.ItemId, TotalPrice = (cart.Quantity*item.Price) };
+                _context.Update(sale);
+
+                // Actually coded this myself :) rather than modifying Rohan's Epic code
+                _context.Remove(_context.Cart.SingleOrDefault(m => m.Id == cart.Id));
+                await _context.SaveChangesAsync();
+
+                ViewBag.Items = item.Itemname + ViewBag.Items;
+            }
+
+            // Save the changes
+            await _context.SaveChangesAsync();
+
+            // delete cart
+            _session.HttpContext.Session.SetString("cartId", "");
+            _session.HttpContext.Session.SetInt32("cartCount", 0);
+
+            ViewBag.UserId = buyer;
+            
+
+            return RedirectToAction(nameof(Index),"Home");
         }
 
         private bool CartExists(int id)

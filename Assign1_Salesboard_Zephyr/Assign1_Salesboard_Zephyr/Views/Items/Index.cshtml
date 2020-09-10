@@ -4,13 +4,20 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (ViewBag.UserId != null)
+{
+    <h1>My Items For Sale</h1>
+}
+else
+{
+    <h1>Browse Items</h1>
+}
 
-<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Listing</a>
 </p>
-<table class="table">
+<table class="table" data-role="table">
     <thead>
         <tr>
             <th>
@@ -30,9 +37,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Itemimage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Postdate)
             </th>
             <th></th>
         </tr>
@@ -60,15 +64,18 @@
                     @Html.DisplayFor(modelItem => item.Itemimage)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Postdate)
-                </td>
-                <td>
                     @if (ViewBag.UserId == item.UserId)
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit |</a>
                     }
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Purchase" asp-route-id="@item.Id">Purchase</a>
+
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
+                    @if (ViewBag.UserId != item.UserId)
+                    {
+                        <a asp-action="Purchase" asp-route-id="@item.Id">| Add to Cart</a>
+                    }
+
                 </td>
             </tr>
         }

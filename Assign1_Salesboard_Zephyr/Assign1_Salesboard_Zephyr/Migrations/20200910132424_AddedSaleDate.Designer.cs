@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assign1_Salesboard_Zephyr.Migrations
 {
     [DbContext(typeof(Zephyr_ApplicationContext))]
-    [Migration("20200908152604_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200910132424_AddedSaleDate")]
+    partial class AddedSaleDate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -123,6 +123,7 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CartId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ItemId")
@@ -133,7 +134,7 @@ namespace Assign1_Salesboard_Zephyr.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Saleitem");
+                    b.ToTable("Cart");
                 });
 
             modelBuilder.Entity("Assign1_Salesboard_Zephyr.DBData.Item", b =>
@@ -195,8 +196,17 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("SaleDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("SellerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

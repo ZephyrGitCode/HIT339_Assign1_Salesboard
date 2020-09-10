@@ -56,33 +56,34 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cart",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CartId = table.Column<string>(nullable: false),
+                    ItemId = table.Column<int>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cart", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sale",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ItemId = table.Column<int>(nullable: false),
+                    SellerId = table.Column<string>(nullable: false),
                     BuyerId = table.Column<string>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false)
+                    TotalPrice = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sale", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Saleitem",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CartId = table.Column<string>(nullable: true),
-                    ItemId = table.Column<int>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Saleitem", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -280,13 +281,13 @@ namespace Assign1_Salesboard_Zephyr.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Cart");
+
+            migrationBuilder.DropTable(
                 name: "Item");
 
             migrationBuilder.DropTable(
                 name: "Sale");
-
-            migrationBuilder.DropTable(
-                name: "Saleitem");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

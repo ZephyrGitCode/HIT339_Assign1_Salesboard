@@ -32,6 +32,7 @@ namespace Assign1_Salesboard_Zephyr.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
             builder.Entity<Item>().Property(b => b.Postdate).HasDefaultValueSql("getdate()");
+            builder.Entity<Sale>().Property(m => m.SaleDate).HasDefaultValueSql("getdate()");
         }
     }
 }
