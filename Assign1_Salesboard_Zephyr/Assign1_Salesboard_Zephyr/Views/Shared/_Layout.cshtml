@@ -15,7 +15,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:#045fc1;">Selling Solutions™</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:#045fc1;">Solution Selling™</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,16 +27,22 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="Index">All Items</a>
+                            <a class="nav-link text-dark">|</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="MyItems">My Items</a>
+                            <a class="nav-link text-primary" asp-area="" asp-controller="Items" asp-action="Index">Browse Store</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Carts" asp-action="Index">My Cart</a>
+                            <a class="nav-link text-dark">|</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Sales" asp-action="Index">My Purchases</a>
+                            <a class="nav-link text-info" asp-area="" asp-controller="Items" asp-action="MyItems">My Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark">|</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color:#d09c00;" asp-area="" asp-controller="Carts" asp-action="Index">Shopping Cart</a>
                         </li>
                     </ul>
                 </div>
@@ -51,7 +57,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - Assign1_Salesboard_Zephyr - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - Solution Selling™ - <a asp-area="" asp-controller="Home" asp-action="Contact">Contact Site</a>
         </div>
     </footer>
 

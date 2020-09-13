@@ -1,0 +1,201 @@
+﻿@model Assign1_Salesboard_Zephyr.ViewModels.MyItemsViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewBag.Browse</h1>
+
+<h1>@ViewBag.Total</h1>
+
+<p>
+    <a asp-action="Create">Create New Listing</a>
+</p>
+
+<form asp-controller="Items" asp-action="MyItems" method="get">
+    <!--
+    <select asp-for="Categories" asp-items="Model.Categories">
+        <option value="">All</option>
+    </select>
+     -->
+    <p>
+        Item Name: <input id="filter" type="text" asp-for="SearchString">
+        <input type="submit" value="Filter" />
+        <input type="button" value="Clear Search" onclick="Clear()" />
+    </p>
+</form>
+<table class="table" data-role="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].Itemname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].Itemdesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].Itemimage)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Itemname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Itemdesc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @if (@item.Quantity <= 0)
+                    {
+                        <p>Sold</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Itemimage)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details |</a>
+
+                    @if (ViewBag.UserId == item.UserId)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h1>My Sales</h1>
+
+<div class="alert alert-success">
+    <p style="margin:auto;">Total recieved from customers: $@ViewBag.SaleTotal</p>
+</div>
+<table class="table" data-role="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].ItemId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].BuyerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].SaleDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sale in Model.Sales)
+        {
+            @if (@sale.SellerId == @ViewBag.UserId)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => sale.ItemId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => sale.BuyerId)
+                    </td>
+                    <td>
+                        $@Html.DisplayFor(modelItem => sale.TotalPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => sale.SaleDate)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-controller="Sales" asp-route-id="@sale.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h1>My Purchases</h1>
+<div class="alert alert-info">
+    <p style="margin:auto;">Total spent on all items: $@ViewBag.PurchaseTotal</p>
+</div>
+<table class="table" data-role="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].ItemId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].BuyerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sales[0].SaleDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sale in Model.Sales)
+        {
+            @if (@sale.BuyerId == @ViewBag.UserId)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => sale.ItemId)
+                    </td>
+                    <td>
+                        Myself
+                    </td>
+                    <td>
+                        $@Html.DisplayFor(modelItem => sale.TotalPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => sale.SaleDate)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-controller="Sales" asp-route-id="@sale.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<script>
+    function Clear() {
+        document.getElementById("filter").value = "";
+    }
+</script>

@@ -3,16 +3,16 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to our Online Salesboard!</h1>
-    <h2>Your one-stop shop for e-commerce</h2>
+    <div class="page-header">
+        <h1>Welcome to our Online Salesboard!</h1>
+        <h1><small>Your one-stop shop for e-commerce</small></h1>
+    </div>
     <hr />
     <h5>Shop Now</h5>
-    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Items" asp-action="Index">All Items</a>
+    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Items" asp-action="Index"><span class="btn btn-primary">Browse Store Items</span></a>
     <hr />
     <h5>Just For You</h5>
-    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Items" asp-action="MyItems">My Items on Sale</a>
-    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Carts" asp-action="Index">Shopping Cart</a>
-    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Sales" asp-action="Index">Purchase History</a>
-    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Settings</a>
-    @ViewBag.UserId
+    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Items" asp-action="MyItems"><span class="btn btn-primary">My Profile</span></a>
+    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Carts" asp-action="Index"><span class="btn btn-primary">Shopping Cart</span></a>
+    <a class="nav-link text-dark" style="text-decoration:underline;" asp-area="" asp-controller="Home" asp-action="Contact"><span class="btn btn-primary">Site Contact</span></a>
 </div>

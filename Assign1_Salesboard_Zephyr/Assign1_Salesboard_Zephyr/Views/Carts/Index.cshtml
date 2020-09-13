@@ -31,18 +31,9 @@
                 @Html.DisplayFor(modelItem => item.ItemId)
             </td>
             <td>
-                @if (item.Quantity == 0)
-                {
-                    <p>Sold @item.Quantity</p>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                }
-
+                @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
@@ -50,5 +41,22 @@
     </tbody>
 </table>
 
+<button type="button" class="btn btn-outline-primary btn-lg" asp-action="Checkout" onclick="Confirm()">Checkout</button>
 
-<button type="button" class="btn btn-outline-primary btn-lg" asp-action="Checkout" ><a asp-action="Checkout">Checkout</a></button>
+<div class="confirm" id="confirm">
+    <div class="confirm-text">
+        <p>Ready to Go?</p>
+        <button type="button" class="btn btn-primary btn-lg" style="text-align:left;"><a asp-action="Checkout" style="text-decoration:none; color:white;">Confirm Purchase</a></button>
+        <button type="button" class="btn btn-danger btn-lg" onclick="Close()" style="text-align:right;">Not Yet</button>
+    </div>
+</div>
+
+<script>
+    function Confirm() {
+        document.getElementById("confirm").style.display = "block";
+    }
+
+    function Close() {
+        document.getElementById("confirm").style.display = "none";
+    }
+</script>

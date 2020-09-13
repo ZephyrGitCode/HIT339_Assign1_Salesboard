@@ -23,15 +23,8 @@ namespace Assign1_Salesboard_Zephyr.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Contact()
         {
-            return View();
-        }
-
-        public IActionResult Hello(string name, int numtimes = 1)
-        {
-            ViewData["Message"] = "Hello " + name;
-            ViewData["NumTimes"] = numtimes;
             return View();
         }
 

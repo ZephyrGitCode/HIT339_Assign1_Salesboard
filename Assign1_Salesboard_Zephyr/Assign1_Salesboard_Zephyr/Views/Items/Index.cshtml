@@ -4,19 +4,20 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@if (ViewBag.UserId != null)
-{
-    <h1>My Items For Sale</h1>
-}
-else
-{
-    <h1>Browse Items</h1>
-}
 
+<h1>@ViewBag.Browse</h1>
 
 <p>
     <a asp-action="Create">Create New Listing</a>
 </p>
+
+<form asp-controller="Items" asp-action="Index" method="get" >
+    <p>
+        Item Name: <input type="text" name="SearchString">
+        <input type="submit" value="Filter" />
+        <input type="submit" value="Clear Search" />
+    </p>
+</form>
 <table class="table" data-role="table">
     <thead>
         <tr>
@@ -58,7 +59,14 @@ else
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
+                    @if (@item.Quantity <= 0)
+                    {
+                        <p>Sold</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Itemimage)
@@ -66,14 +74,12 @@ else
                 <td>
                     @if (ViewBag.UserId == item.UserId)
                     {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit |</a>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details and Edit</a>
                     }
-
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
 
                     @if (ViewBag.UserId != item.UserId)
                     {
-                        <a asp-action="Purchase" asp-route-id="@item.Id">| Add to Cart</a>
+                        <a asp-action="Purchase" asp-route-id="@item.Id">View Item</a>
                     }
 
                 </td>

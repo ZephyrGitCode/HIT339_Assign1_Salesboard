@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using Assign1_Salesboard_Zephyr.ViewModels;
 
 namespace Assign1_Salesboard_Zephyr.Controllers
 {
@@ -35,33 +36,86 @@ namespace Assign1_Salesboard_Zephyr.Controllers
 
         [AllowAnonymous]
         // GET: Items
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var items = _context.Item
-                .Where(m => m.Quantity != 0);
-
-            return View(items);
-        }
-
-        // GET: My Items
-        public ActionResult MyItems()
-        {
-            //var userid = User.FindFirstValue(ClaimTypes.NameIdentifier); // Will return userID
-
-            //Zephyr_ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
-            //string userEmail = applicationUser?.Email; // will give the user's Email
             var seller = _userManager.GetUserId(HttpContext.User);
             ViewBag.UserId = seller;
-            var items = _context.Item
-                .Where(m => m.UserId == seller);
-            
-            var sales = _context.Sale
-                .Where(s => s.SellerId == seller);
 
-            ViewBag.Sales = sales;
+            ViewBag.Browse = "Browse For Items";
+            var items = _context.Item
+                .Where(m => m.Quantity >= 1);
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                items = items.Where(s => s.Itemname.Contains(searchString));
+            }
+
+            return View(await items.ToListAsync());
+        }
+
+        // GET: My Home Page, returns all items the current has sold and all sales they have made.
+        public async Task<ActionResult> MyItems(string itemCategory, string searchString)
+        {
+            // Use LINQ to get list of genres.
+            IQueryable<string> categoryQuery = from m in _context.Item orderby m.Category select m.Category;
+
+            // Get current user
+            var user = _userManager.GetUserId(HttpContext.User);
+
+            // Return Items that match current user
+            var items = _context.Item
+                .Where(m => m.UserId == user);
+
+            // Return Sales that match current user
+            var allsales = _context.Sale
+                .Where(s => s.SellerId == user || s.BuyerId == user);
+
+            // Filter just the current user's sales
+            var mysales = _context.Sale
+                .Where(s => s.SellerId == user);
+
+            // Filter just the current user's purchases
+            var mypurchases = _context.Sale
+                .Where(s => s.BuyerId == user);
+
+            // Total of user's sales
+            double mysalestotal = mysales.Sum(x => x.TotalPrice);
+            ViewBag.SaleTotal = mysalestotal;
+
+            // Total of user's purchases
+            double purchasestotal = mypurchases.Sum(x => x.TotalPrice);
+            ViewBag.PurchaseTotal = purchasestotal;
+
+            // Sorts Items by name
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                items = items.Where(s => s.Itemname.Contains(searchString));
+            }
+
+            // Sorts Items by Category
+            if (!string.IsNullOrEmpty(itemCategory))
+            {
+                items = items.Where(x => x.Category == itemCategory);
+            }
+
+            // Order Items by quantity
+            var ordereditems = items.OrderByDescending(d => d.Quantity);
+
+            
+
+            // New instance of view model, allows multiple models in 1 page
+            var MyItemsVM = new MyItemsViewModel
+            {
+                Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
+                Items = await ordereditems.ToListAsync(),
+                Sales = await allsales.ToListAsync()
+            };
+
+            ViewBag.Browse = "Manage Your Items";
+            ViewBag.UserId = user;
 
             //return View("Index", items);
-            return View("Index",items);
+            return View(MyItemsVM);
         }
 
         // GET: Items/Details/5
@@ -186,10 +240,12 @@ namespace Assign1_Salesboard_Zephyr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PurchaseConfirmed([Bind("Quantity,ItemId")] Cart cart)
         {
-            // Get or Create a cart ID
-            string cartId = _session.HttpContext.Session.GetString("cartId");
+            var user = _userManager.GetUserId(HttpContext.User);
+            // Get or Create a cart ID 
+            string cartId = _session.HttpContext.Session.GetString(user);
 
-            if (string.IsNullOrEmpty(cartId) == true) cartId = Guid.NewGuid().ToString();
+            // Sets cartID to user's string so each user has a unique cart
+            if (string.IsNullOrEmpty(cartId) == true) cartId = user;
 
             // Use the cart id
             cart.CartId = cartId.ToString();
@@ -203,7 +259,7 @@ namespace Assign1_Salesboard_Zephyr.Controllers
             // Add to cart
             var checkCount = _session.HttpContext.Session.GetInt32("cartCount");
             int cartCount = checkCount == null ? 0 : (int)checkCount;
-            _session.HttpContext.Session.SetString("cartId", cartId.ToString());
+            _session.HttpContext.Session.SetString(user, cartId.ToString());
             _session.HttpContext.Session.SetInt32("cartCount", ++cartCount);
             
             return RedirectToAction(nameof(Index),"Carts");
