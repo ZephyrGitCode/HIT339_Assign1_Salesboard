@@ -4,9 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Item</h4>
+<h1>Edit Item</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -49,8 +47,8 @@
                 <span asp-validation-for="Postdate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label" hidden></label>
-                <input asp-for="UserId" class="form-control" value="@ViewBag.UserId" hidden />
+                <label type="hidden" asp-for="UserId" class="control-label"></label>
+                <input hidden asp-for="UserId" class="form-control" value="@ViewBag.SellerId" />
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
             <div class="form-group">

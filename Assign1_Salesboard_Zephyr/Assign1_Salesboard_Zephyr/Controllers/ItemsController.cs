@@ -36,28 +36,54 @@ namespace Assign1_Salesboard_Zephyr.Controllers
 
         [AllowAnonymous]
         // GET: Items
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string categories)
         {
-            var seller = _userManager.GetUserId(HttpContext.User);
-            ViewBag.UserId = seller;
+            // Use LINQ to get list of genres.
+            IQueryable<string> categoryQuery = from m in _context.Item 
+                                               orderby m.Category 
+                                               select m.Category;
 
-            ViewBag.Browse = "Browse For Items";
             var items = _context.Item
                 .Where(m => m.Quantity >= 1);
 
+            // Sorts Items by name
             if (!String.IsNullOrEmpty(searchString))
             {
                 items = items.Where(s => s.Itemname.Contains(searchString));
             }
 
-            return View(await items.ToListAsync());
+            // Sorts Items by Category
+            if (!string.IsNullOrEmpty(categories))
+            {
+                items = items.Where(x => x.Category == categories);
+            }
+
+            // New instance of view model, allows multiple models in 1 page
+            var StoreVM = new StoreViewModel
+            {
+                Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
+                Items = await items.ToListAsync()
+            };
+
+            var seller = _userManager.GetUserId(HttpContext.User);
+            var isadmin = _userManager.GetUserName(HttpContext.User);
+            if (isadmin == "Admin@Admin")
+            {
+                ViewBag.IsAdmin = true;
+            }
+            ViewBag.UserId = seller;
+            ViewBag.Browse = "Browse For Items";
+
+            return View(StoreVM);
         }
 
         // GET: My Home Page, returns all items the current has sold and all sales they have made.
-        public async Task<ActionResult> MyItems(string itemCategory, string searchString)
+        public async Task<ActionResult> MyItems(string categories, string searchString)
         {
             // Use LINQ to get list of genres.
-            IQueryable<string> categoryQuery = from m in _context.Item orderby m.Category select m.Category;
+            IQueryable<string> categoryQuery = from m in _context.Item 
+                                               orderby m.Category 
+                                               select m.Category;
 
             // Get current user
             var user = _userManager.GetUserId(HttpContext.User);
@@ -93,22 +119,23 @@ namespace Assign1_Salesboard_Zephyr.Controllers
             }
 
             // Sorts Items by Category
-            if (!string.IsNullOrEmpty(itemCategory))
+            if (!string.IsNullOrEmpty(categories))
             {
-                items = items.Where(x => x.Category == itemCategory);
+                items = items.Where(x => x.Category == categories);
             }
 
             // Order Items by quantity
             var ordereditems = items.OrderByDescending(d => d.Quantity);
 
-            
+            // Order Sales by Date
+            var orderedsales = allsales.OrderByDescending(d => d.SaleDate);
 
             // New instance of view model, allows multiple models in 1 page
             var MyItemsVM = new MyItemsViewModel
             {
                 Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
                 Items = await ordereditems.ToListAsync(),
-                Sales = await allsales.ToListAsync()
+                Sales = await orderedsales.ToListAsync()
             };
 
             ViewBag.Browse = "Manage Your Items";
@@ -131,6 +158,11 @@ namespace Assign1_Salesboard_Zephyr.Controllers
             if (item == null)
             {
                 return NotFound();
+            }
+            var isadmin = _userManager.GetUserName(HttpContext.User);
+            if (isadmin == "Admin@Admin")
+            {
+                ViewBag.IsAdmin = true;
             }
 
             return View(item);
@@ -172,9 +204,7 @@ namespace Assign1_Salesboard_Zephyr.Controllers
             {
                 return NotFound();
             }
-
-            var seller = _userManager.GetUserId(HttpContext.User);
-            ViewBag.UserId = seller;
+            ViewBag.SellerId = item.UserId;
 
             return View(item);
         }

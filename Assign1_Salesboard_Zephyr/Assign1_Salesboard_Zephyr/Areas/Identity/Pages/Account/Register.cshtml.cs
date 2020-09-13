@@ -75,7 +75,13 @@ namespace Assign1_Salesboard_Zephyr.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new Zephyr_ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new Zephyr_ApplicationUser { UserName = Input.Email, Email = Input.Email, IsAdmin = false };
+
+                if (Input.Email == "Admin@Admin")
+                {
+                   user.IsAdmin = true;
+                }
+                
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

@@ -9,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace Assign1_Salesboard_Zephyr.ViewModels
 {
-    public class MyItemsViewModel
+    public class StoreViewModel
     {
         public List<Item> Items { get; set; }
-        public List<Sale> Sales { get; set; }
         public SelectList Categories { get; set; }
         public string SearchString { get; set; }
     }

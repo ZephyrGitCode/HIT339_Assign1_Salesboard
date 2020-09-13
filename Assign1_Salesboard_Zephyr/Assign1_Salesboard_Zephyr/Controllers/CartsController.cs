@@ -100,15 +100,9 @@ namespace Assign1_Salesboard_Zephyr.Controllers
                 var item = await _context.Item
                     .FirstOrDefaultAsync(m => m.Id == cart.ItemId);
 
-                // update the quantity --- do thing
-                if (item.Quantity > cart.Quantity)
-                {
-                    item.Quantity -= cart.Quantity;
-                }
-                else
-                {
-                    return RedirectToAction(nameof(Index), "Carts");
-                }
+                // update the quantity
+                item.Quantity -= cart.Quantity;
+
                 _context.Update(item);
 
                 Sale sale = new Sale { SellerId = item.UserId, BuyerId = user,
@@ -129,7 +123,7 @@ namespace Assign1_Salesboard_Zephyr.Controllers
             int cartCount = checkCount == null ? 0 : (int)checkCount;
             _session.HttpContext.Session.SetInt32("cartCount", --cartCount);
 
-            return RedirectToAction(nameof(Index), "Sales");
+            return RedirectToAction("MyItems", "Items");
         }
 
         private bool CartExists(int id)

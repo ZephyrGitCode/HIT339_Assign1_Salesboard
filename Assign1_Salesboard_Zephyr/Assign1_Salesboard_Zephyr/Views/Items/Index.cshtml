@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Assign1_Salesboard_Zephyr.DBData.Item>
+﻿@model Assign1_Salesboard_Zephyr.ViewModels.StoreViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -8,82 +8,51 @@
 <h1>@ViewBag.Browse</h1>
 
 <p>
-    <a asp-action="Create">Create New Listing</a>
+    <a class="btn btn-success" asp-action="Create">Create New Listing</a>
 </p>
 
-<form asp-controller="Items" asp-action="Index" method="get" >
-    <p>
-        Item Name: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
-        <input type="submit" value="Clear Search" />
-    </p>
+<form asp-controller="Items" asp-action="Index" method="get">
+    <span class="alert alert-info" style="margin-right:10px;">Filter by category: </span>
+    <select asp-for="Categories" asp-items="Model.Categories" style="margin: 0 10px 0 0">
+        <option value="">All</option>
+    </select>
+    <span class="alert alert-info" style="margin-right:10px;">Search by Item Name: </span><input id="filter" type="text" asp-for="SearchString">
+    <input type="submit" value="Filter" />
+    <input type="button" value="Clear Search" onclick="Clear()" />
 </form>
-<table class="table" data-role="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Itemname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Itemdesc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Itemimage)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Itemname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Itemdesc)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @if (@item.Quantity <= 0)
-                    {
-                        <p>Sold</p>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Itemimage)
-                </td>
-                <td>
-                    @if (ViewBag.UserId == item.UserId)
-                    {
-                        <a asp-action="Details" asp-route-id="@item.Id">Details and Edit</a>
-                    }
 
+<br />
+
+<div class="row">
+    @foreach (var item in Model.Items)
+    {
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                @if (item.Itemimage == null)
+                {
+                    <img href="" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Comic_image_missing.svg/1264px-Comic_image_missing.svg.png" class="itemimage" style="height: 200px; width: 100%; display: block;" />
+                }
+                else
+                {
+                    <img href="" src="@item.Itemimage" class="itemimage" style="height: 200px; width: 100%; display: block;" />
+                }
+
+                <div class="caption">
+                    <h1>@Html.DisplayFor(modelItem => item.Itemname)</h1>
+                    <p>Description: @Html.DisplayFor(modelItem => item.Itemdesc).</p>
+                    <p>Quantity: @Html.DisplayFor(modelItem => item.Quantity)</p>
+                    <p>Category: @Html.DisplayFor(modelItem => item.Category)</p>
+                    <p>@Html.DisplayFor(modelItem => item.Price)</p>
+                    @if (ViewBag.UserId == item.UserId || ViewBag.IsAdmin == true)
+                    {
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details and Edit</a>
+                    }
                     @if (ViewBag.UserId != item.UserId)
                     {
-                        <a asp-action="Purchase" asp-route-id="@item.Id">View Item</a>
+                        <a class="btn btn-primary" asp-action="Purchase" asp-route-id="@item.Id">View Item</a>
                     }
-
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+            </div>
+        </div>
+    }
+</div>

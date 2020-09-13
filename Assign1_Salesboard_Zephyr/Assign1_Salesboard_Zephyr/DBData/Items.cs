@@ -24,7 +24,7 @@ namespace Assign1_Salesboard_Zephyr.DBData
         [Display(Name = "Item Description"), StringLength(255)]
         public string Itemdesc { get; set; }
 
-        [RegularExpression(@"^[A-Z]+[a-zA-Z]*$"), StringLength(30)]
+        [RegularExpression(@"^[A-Z]+[a-zA-Z]*$"), StringLength(30, ErrorMessage = "Must start with capital letter e.g. 'Electronics'")]
         public string Category { get; set; }
 
         [DataType(DataType.Currency)]
